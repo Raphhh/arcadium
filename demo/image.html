@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Arcadium - demo</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            padding: 50px;
+        }
+
+        canvas {
+            background: #eee;
+            display: block;
+            margin: 0 auto;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<canvas id="main" width="480" height="320"></canvas>
+<div style="display:none;">
+    <img id="koala" src="https://avatars.githubusercontent.com/u/5206490">
+</div>
+
+<script type="module" src="../dist/main.js"></script>
+<script type="module">
+
+
+    const arcadium = new Arcadium(document.getElementById('main'));
+    arcadium.isDebugMode = true;
+
+    const koala = arcadium.stage.addImage(document.getElementById('koala'), {
+        x: 'center',
+        y: 'center',
+        width: 100,
+        height: 100,
+    });
+
+    arcadium.setup((stage) => {
+        //koala.translation = {x: 100, y: 200};
+        //koala.scale = {x: 2, y: 1};
+        //koala.transformation = {a: 1, b: 0, c: 0, d: 1, e: 0, f: 0};
+        //koala.shadow = {blur: 15, color: 'red'};
+    });
+
+    arcadium.loop((stage) => {
+        //koala.translation = {x: 100, y: 200};
+        //koala.x += 1;
+        //koala.rotation.degrees += 1;
+    })
+
+    arcadium.ui.mouse.onOver(koala, function() {
+        koala.scale = {x: 1.1, y: 1.1};
+    });
+    arcadium.ui.mouse.onOut(koala, function() {
+        koala.scale = {x: 1, y: 1};
+    });
+    arcadium.ui.mouse.onClick(koala, function() {
+        koala.rotation.degrees += 45;
+    });
+
+    //arcadium.ui.mouse.onDrag(koala, function () {}, function () {});
+
+</script>
+
+
+</body>
+
+</html>
