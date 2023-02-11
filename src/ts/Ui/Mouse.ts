@@ -2,26 +2,17 @@ import {Sprite} from "../Display";
 import {MouseEvents} from "./MouseEvents";
 import {Point, Vector} from "../Geom";
 
-export class Mouse {
+export class Mouse extends Point {
 
     private canvas: HTMLCanvasElement;
-    private _x:number|null;
-    private _y:number|null;
 
     public constructor(canvas:HTMLCanvasElement) {
+        super({x: null, y: null});
         this.canvas = canvas;
         this.canvas.addEventListener('mousemove', (evt:MouseEvent) => {
-            this._x = evt.offsetX;
-            this._y = evt.offsetY;
+            this.x = evt.offsetX;
+            this.y = evt.offsetY;
         });
-    }
-
-    get x():number|null {
-        return this._x;
-    }
-
-    get y():number|null {
-        return this._y;
     }
 
     public isOver(sprite:Sprite):boolean {
