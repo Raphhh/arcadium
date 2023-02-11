@@ -42,7 +42,7 @@ export class Mouse extends Point {
         this._on('mousemove', (evt:GlobalMouseEvent) => {
             if (this.isOver(sprite)) {
                 //todo faire un vrai event en arg.
-                callback(new ArcadiumMouseEvent(this, evt), sprite, MouseEvents.MOUSE_OVER);
+                callback.call(sprite, new ArcadiumMouseEvent(this, evt), sprite, MouseEvents.MOUSE_OVER);
             }
         });
     }
@@ -50,7 +50,7 @@ export class Mouse extends Point {
     public onOut(sprite:Sprite, callback:Function) {
         this._on('mousemove', (evt:GlobalMouseEvent) => {
             if (!this.isOver(sprite)) {
-                callback(new ArcadiumMouseEvent(this, evt), sprite, MouseEvents.MOUSE_OUT);
+                callback.call(sprite, new ArcadiumMouseEvent(this, evt), sprite, MouseEvents.MOUSE_OUT);
             }
         });
     }
@@ -105,7 +105,7 @@ export class Mouse extends Point {
         this.setCursorAsPoint(sprite);
         this._on(eventName, (evt:GlobalMouseEvent) => {
             if (this.isOver(sprite)) {
-                callback(new ArcadiumMouseEvent(this, evt), sprite, eventName);
+                callback.call(sprite, new ArcadiumMouseEvent(this, evt), sprite, eventName);
             }
         });
     }
