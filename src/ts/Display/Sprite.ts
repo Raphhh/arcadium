@@ -5,6 +5,7 @@ import {Shadow} from "./Shadow";
 import {Image} from "./index";
 import {Text} from "./index";
 import {Shape} from "./index";
+import {Stage} from "./index";
 import {Point} from "../Geom/Point";
 import {Transformation} from "../Geom/Transformation";
 import {TransformationInterface} from "../Geom/TransformationInterface";
@@ -221,10 +222,12 @@ export class Sprite {
         return new Shape(this, rectangle, rendering);
     }
 
-    public get stage():Sprite {
+    public get stage():Stage|null {
         if (this.parent) {
             return this.parent.stage;
+        } else if (this instanceof Stage) {
+            return this;
         }
-        return this;
+        return null;
     }
 }
