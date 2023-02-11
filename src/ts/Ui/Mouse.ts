@@ -1,4 +1,5 @@
 import {Sprite} from "../Display";
+import {MouseEvent as ArcadiumMouseEvent, GlobalMouseEvent} from "./MouseEvent";
 import {MouseEvents} from "./MouseEvents";
 import {Point, Vector} from "../Geom";
 
@@ -9,7 +10,7 @@ export class Mouse extends Point {
     public constructor(canvas:HTMLCanvasElement) {
         super({x: null, y: null});
         this.canvas = canvas;
-        this.canvas.addEventListener('mousemove', (evt:MouseEvent) => {
+        this.canvas.addEventListener('mousemove', (evt:GlobalMouseEvent) => {
             this.x = evt.offsetX;
             this.y = evt.offsetY;
         });
@@ -42,18 +43,18 @@ export class Mouse extends Point {
     }
 
     public onOver(sprite:Sprite, callback:Function) {
-        this.on('mousemove', (evt:MouseEvent) => {
+        this.on('mousemove', (evt:GlobalMouseEvent) => {
             if (this.isOver(sprite)) {
                 //todo faire un vrai event en arg.
-                callback(evt, sprite, MouseEvents.MOUSE_OVER);
+                callback(new ArcadiumMouseEvent(this, evt), sprite, MouseEvents.MOUSE_OVER);
             }
         });
     }
 
     public onOut(sprite:Sprite, callback:Function) {
-        this.on('mousemove', (evt:MouseEvent) => {
+        this.on('mousemove', (evt:GlobalMouseEvent) => {
             if (!this.isOver(sprite)) {
-                callback(evt, sprite, MouseEvents.MOUSE_OUT);
+                callback(new ArcadiumMouseEvent(this, evt), sprite, MouseEvents.MOUSE_OUT);
             }
         });
     }
@@ -79,7 +80,7 @@ export class Mouse extends Point {
             );
         });
 
-        this.on('mousemove', (evt:MouseEvent) => {
+        this.on('mousemove', (evt:GlobalMouseEvent) => {
 
             if (!originalDistance) {
                 return;
@@ -106,9 +107,9 @@ export class Mouse extends Point {
 
     private onClickableEvent(sprite:Sprite, eventName:MouseEvents, callback:Function) {
         this.setCursorAsPoint(sprite);
-        this.on(eventName, (evt:MouseEvent) => {
+        this.on(eventName, (evt:GlobalMouseEvent) => {
             if (this.isOver(sprite)) {
-                callback(evt, sprite, eventName);
+                callback(new ArcadiumMouseEvent(this, evt), sprite, eventName);
             }
         });
     }
