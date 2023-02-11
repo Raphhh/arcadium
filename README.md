@@ -3,10 +3,10 @@
 An HTML canvas manager written in TypeScript.
 
 
-## Build JS
+## Build JS (dev)
 
 ```shell
-$ npm run build
+$ npm run dev
 ```
 
 ## How it works

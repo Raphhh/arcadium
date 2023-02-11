@@ -18,5 +18,6 @@ module.exports = {
     output: {
         //clean: true,
         libraryTarget: 'umd',
+        filename: 'dev.mjs'
     },
 };
