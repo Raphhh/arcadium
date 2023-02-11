@@ -6,3 +6,4 @@ export * from './Text'
 
 //normal export
 export * from './Shadow'
+export * from './Stage'
