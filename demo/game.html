@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Arcadium - game</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            padding: 50px;
+            background: #eee;
+        }
+
+        canvas {
+            background: #fff;
+            display: block;
+            margin: 0 auto;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<canvas id="main" width="480" height="320"></canvas>
+
+<script type="module" src="https://cdn.jsdelivr.net/gh/Raphhh/arcadium@master/dist/dev.mjs"></script>
+<script type="module">
+
+    function createCircle(arcadium, color, size) {
+        const circle = arcadium.stage.addShape({}, arcadium.services.spriteCircleShapeRendering);
+        circle.fillStyle = color;
+        circle.width = circle.height = size;
+
+        // move the circle in the center of the stage
+        circle.x = arcadium.stage.width / 2 - circle.width / 2;
+        circle.y = arcadium.stage.height / 2 - circle.height / 2;
+
+        return circle;
+    }
+
+    function createRectangle(arcadium, color, height, width) {
+        const rectangle = arcadium.stage.addShape({}, arcadium.services.spriteRectangleShapeRendering);
+        rectangle.fillStyle = color;
+        rectangle.height = height;
+        rectangle.width = width;
+
+        rectangle.x  = arcadium.stage.width / 2 - rectangle.width / 2;
+        rectangle.y = arcadium.stage.height - rectangle.height;
+
+        return rectangle;
+    }
+
+    function extractRgb(rgbAsString) {
+        let rgb = rgbAsString.match(/(\d+)/g).map(value => parseInt(value));
+        return {
+            r: rgb[0],
+            g: rgb[1],
+            b: rgb[2],
+        }
+    }
+
+    function calculateNewColor(color, speed) {
+        color += speed;
+
+        if (color < 0) {
+            return 0;
+        }
+        if (color > 255) {
+            return 255;
+        }
+        return color;
+    }
+
+    const arcadium = new Arcadium(document.getElementById('main'));
+    //arcadium.isDebugMode = true;
+
+    const circle = createCircle(arcadium, 'rgb(0, 0, 255)', 40);
+    const rectangle = createRectangle(arcadium, 'black', 10, 50);
+
+    let xSpeed = 1;
+    let ySpeed = -2;
+
+    let redSpeed = 1;
+    let greenSpeed = 2;
+    let blueSpeed = 3;
+
+    let rectangleSpeed = 20;
+
+
+    // move rectangle
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowLeft' && rectangle.x > arcadium.stage.x) {
+            rectangle.x -= rectangleSpeed;
+        }
+    }, false);
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowRight' && rectangle.x + rectangle.width < arcadium.stage.width) {
+            rectangle.x += rectangleSpeed;
+        }
+    }, false);
+
+
+    arcadium.loop((arcadium) => {
+
+        //modify the position
+
+        circle.x += xSpeed;
+        circle.y += ySpeed;
+
+        if (circle.x <= arcadium.stage.x || circle.x + circle.width >= arcadium.stage.width) {
+            xSpeed *= -1;
+        }
+
+        if (circle.y <= arcadium.stage.y) {
+            // la balle rebondit en haut
+            ySpeed *= -1;
+        }  else if (circle.y >= arcadium.stage.height) {
+            //la balle est hors jeux
+            circle.y = arcadium.stage.height / 2 - circle.height / 2;
+            ySpeed *= -1;
+        } else if (circle.y + circle.height >= rectangle.y) {
+            // la balle est au niveau de la plateforme
+            if (circle.x + circle.width >= rectangle.x && circle.x <= rectangle.x + rectangle.width) {
+                // la plateforme est alignée au-dessus de la balle
+                ySpeed *= -1;
+            }
+        }
+
+
+
+        //modify the color
+
+        let rgb = extractRgb(circle.fillStyle);
+
+        rgb.r = calculateNewColor(rgb.r, redSpeed);
+        if (rgb.r == 0 || rgb.r == 255) {
+            redSpeed *= -1;
+        }
+
+        rgb.g = calculateNewColor(rgb.g, greenSpeed);
+        if (rgb.g == 0 || rgb.g == 255) {
+            greenSpeed *= -1;
+        }
+
+        rgb.b = calculateNewColor(rgb.b, blueSpeed);
+        if (rgb.b == 0 || rgb.b == 255) {
+            blueSpeed *= -1;
+        }
+
+        circle.fillStyle = 'rgb(' + rgb.r + ', ' + rgb.g + ', ' + rgb.b + ')';
+
+
+    });
+
+</script>
+
+
+</body>
+
+</html>
