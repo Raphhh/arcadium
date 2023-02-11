@@ -57,14 +57,14 @@
         //koala.rotation.degrees += 1;
     })
 
-    arcadium.ui.mouse.onOver(koala, function() {
-        koala.scale = {x: 1.1, y: 1.1};
+    koala.onMouseOver(function() {
+        this.scale = {x: 1.1, y: 1.1};
     });
-    arcadium.ui.mouse.onOut(koala, function() {
-        koala.scale = {x: 1, y: 1};
+    koala.onMouseOut(function() {
+        this.scale = {x: 1, y: 1};
     });
-    arcadium.ui.mouse.onClick(koala, function() {
-        koala.rotation.degrees += 45;
+    koala.onClick(function() {
+        this.rotation.degrees += 45;
     });
 
     //arcadium.ui.mouse.onDrag(koala, function () {}, function () {});

@@ -77,14 +77,14 @@ triangle.fillStyle = 'red';
 ### Mouse interaction
 
 ```js
-arcadium.ui.mouse.onOver(myImage, function() {
-    myImage.scale = {x: 1.1, y: 1.1};
+myImage.onMouseOver(function() {
+    this.scale = {x: 1.1, y: 1.1};
 });
-arcadium.ui.mouse.onOut(myImage, function() {
-    myImage.scale = {x: 1, y: 1};
+myImage.onMouseOut(function() {
+    this.scale = {x: 1, y: 1};
 });
-arcadium.ui.mouse.onClick(myImage, function() {
-    myImage.rotation.degrees += 45;
+myImageonClick(function() {
+    this.rotation.degrees += 45;
 });
 ```
 
