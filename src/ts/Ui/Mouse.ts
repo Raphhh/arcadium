@@ -16,10 +16,6 @@ export class Mouse extends Point {
         });
     }
 
-    public on<K extends keyof HTMLElementEventMap>(eventName: K, listener: (this: HTMLCanvasElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions) {
-        this.canvas.addEventListener(eventName, listener);
-    }
-
     public track(sprite:Sprite, eventName:MouseEvents, callback:Function) {
         switch (eventName) {
             case MouseEvents.MOUSE_OVER:
@@ -43,7 +39,7 @@ export class Mouse extends Point {
     }
 
     public onOver(sprite:Sprite, callback:Function) {
-        this.on('mousemove', (evt:GlobalMouseEvent) => {
+        this._on('mousemove', (evt:GlobalMouseEvent) => {
             if (this.isOver(sprite)) {
                 //todo faire un vrai event en arg.
                 callback(new ArcadiumMouseEvent(this, evt), sprite, MouseEvents.MOUSE_OVER);
@@ -52,7 +48,7 @@ export class Mouse extends Point {
     }
 
     public onOut(sprite:Sprite, callback:Function) {
-        this.on('mousemove', (evt:GlobalMouseEvent) => {
+        this._on('mousemove', (evt:GlobalMouseEvent) => {
             if (!this.isOver(sprite)) {
                 callback(new ArcadiumMouseEvent(this, evt), sprite, MouseEvents.MOUSE_OUT);
             }
@@ -80,7 +76,7 @@ export class Mouse extends Point {
             );
         });
 
-        this.on('mousemove', (evt:GlobalMouseEvent) => {
+        this._on('mousemove', (evt:GlobalMouseEvent) => {
 
             if (!originalDistance) {
                 return;
@@ -107,10 +103,14 @@ export class Mouse extends Point {
 
     private onClickableEvent(sprite:Sprite, eventName:MouseEvents, callback:Function) {
         this.setCursorAsPoint(sprite);
-        this.on(eventName, (evt:GlobalMouseEvent) => {
+        this._on(eventName, (evt:GlobalMouseEvent) => {
             if (this.isOver(sprite)) {
                 callback(new ArcadiumMouseEvent(this, evt), sprite, eventName);
             }
         });
+    }
+
+    private _on<K extends keyof HTMLElementEventMap>(eventName: K, listener: (this: HTMLCanvasElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions) {
+        this.canvas.addEventListener(eventName, listener);
     }
 }
