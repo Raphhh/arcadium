@@ -1,4 +1,4 @@
-import {Sprite} from "./Display/index";
+import {Stage} from "./Display/index";
 import {Rectangle} from "./Geom/Rectangle";
 import {Motion} from "./Core/Motion";
 import {HtmlCanvas} from "./Rendering/HtmlCanvas";
@@ -16,19 +16,14 @@ export function arca(canvas:HTMLCanvasElement, contextDimension:string = '2d'):A
 
 export class Arcadium {
 
-    public readonly stage:Sprite;
+    public readonly stage:Stage;
     public isDebugMode= false;
     public readonly services:Services;
     private readonly rendering: Canvas2DRendering;
 
     public constructor(canvas:HTMLCanvasElement, contextDimension:string = '2d', services?:Services) {
         this.services = services || new Services(new HtmlCanvas(canvas, contextDimension), window);
-        this.stage = new Sprite(null, new Rectangle({
-            x: 0,
-            y: 0,
-            width: canvas.width,
-            height: canvas.height
-        }));
+        this.stage = new Stage(canvas, this);
         this.rendering = this.services.renderingFactory.create(this.services.htmlCanvas);
     }
 
