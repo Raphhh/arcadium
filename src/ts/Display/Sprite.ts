@@ -11,6 +11,7 @@ import {Transformation} from "../Geom/Transformation";
 import {TransformationInterface} from "../Geom/TransformationInterface";
 import {PointInterface} from "../Geom/PointInterface";
 import {SpriteRenderingFunctionAdapter} from "../Rendering/Canvas2DRendering/SpriteRenderingFunctionAdapter";
+import {MouseEvents} from "../Ui";
 
 enum relativeX {
     left = 'left',
@@ -229,5 +230,21 @@ export class Sprite {
             return this;
         }
         return null;
+    }
+
+    public on(eventName:MouseEvents, callback:Function) {
+        this.stage.arcadium.ui.mouse.track(this, eventName, callback);
+    }
+
+    public onMouseOver(callback:Function) {
+        this.on(MouseEvents.MOUSE_OVER, callback);
+    }
+
+    public onMouseOut(callback:Function) {
+        this.on(MouseEvents.MOUSE_OUT, callback);
+    }
+
+    public onClick(callback:Function) {
+        this.on(MouseEvents.CLICK, callback);
     }
 }
