@@ -220,4 +220,11 @@ export class Sprite {
     public addShape(rectangle?:SpriteRectangle, rendering?:SpriteRendering):Shape {
         return new Shape(this, rectangle, rendering);
     }
+
+    public get stage():Sprite {
+        if (this.parent) {
+            return this.parent.stage;
+        }
+        return this;
+    }
 }
