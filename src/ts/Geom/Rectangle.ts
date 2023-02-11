@@ -135,7 +135,7 @@ export class Rectangle implements RectangleInterface {
         const rectangle:Rectangle = new Rectangle(rect);
         return new Rectangle({
                 coordinates: this.coordinates.add(rectangle.coordinates),
-                size: this.size.add(rectangle.size),
+                size: rectangle.size, // do not add size!
             }
         )
     }
