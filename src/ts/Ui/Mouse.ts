@@ -15,10 +15,6 @@ export class Mouse extends Point {
         });
     }
 
-    public isOver(sprite:Sprite):boolean {
-        return sprite.absoluteRectangle.contains(this);
-    }
-
     public on<K extends keyof HTMLElementEventMap>(eventName: K, listener: (this: HTMLCanvasElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions) {
         this.canvas.addEventListener(eventName, listener);
     }

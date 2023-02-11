@@ -1,4 +1,5 @@
 import {PointInterface} from "./PointInterface";
+import {Sprite} from "../Display";
 
 export class Point implements PointInterface {
 
@@ -22,5 +23,9 @@ export class Point implements PointInterface {
             x: this.x - point.x,
             y: this.y - point.y
         })
+    }
+
+    public isOver(sprite:Sprite):boolean {
+        return sprite.absoluteRectangle.contains(this);
     }
 }
