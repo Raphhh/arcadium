@@ -1,16 +1,18 @@
 
 import {Point} from "./Point";
+import {Size} from "./Size";
 import {Vector} from "./Vector";
 import {PointInterface} from "./PointInterface";
+import {SizeInterface} from "./SizeInterface";
 import {RectangleInterface} from "./RectangleInterface";
 
 export class Rectangle implements RectangleInterface {
 
     private _coordinates:Point;
-    private _size:Point;
+    private _size:Size;
 
     public constructor(rectangle:RectangleInterface);
-    public constructor(rectangle:{coordinates:PointInterface, size:PointInterface});
+    public constructor(rectangle:{coordinates:PointInterface, size:SizeInterface});
     constructor(rectangle:any) {
 
         if (rectangle.coordinates) {
@@ -26,8 +28,8 @@ export class Rectangle implements RectangleInterface {
             this.size = rectangle.size;
         } else {
             this.size = {
-                x: rectangle.width,
-                y: rectangle.height
+                width: rectangle.width,
+                height: rectangle.height
             };
         }
     }
@@ -40,12 +42,12 @@ export class Rectangle implements RectangleInterface {
         this._coordinates = new Point(coordinates);
     }
 
-    public get size():Point {
+    public get size():Size {
         return this._size;
     }
 
-    public set size(size:PointInterface) {
-        this._size = new Point(size);
+    public set size(size:SizeInterface) {
+        this._size = new Size(size);
     }
 
     public get x():number {
@@ -57,11 +59,11 @@ export class Rectangle implements RectangleInterface {
     }
 
     public get width():number {
-        return this.size.x;
+        return this.size.width;
     }
 
     public get height():number {
-        return this.size.y;
+        return this.size.height;
     }
 
     public set x(x:number) {
@@ -73,11 +75,11 @@ export class Rectangle implements RectangleInterface {
     }
 
     public set width(width:number) {
-        this.size.x = width;
+        this.size.width = width;
     }
 
     public set height(height:number) {
-        this.size.y = height;
+        this.size.height = height;
     }
 
     public get left():number {
