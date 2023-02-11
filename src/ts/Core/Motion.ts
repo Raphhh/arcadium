@@ -44,13 +44,14 @@ export class Motion {
     }
     
     private play() {
+        //doc https://developer.mozilla.org/fr/docs/Games/Anatomy#construire_une_boucle_principale_encore_plus_optimis%C3%A9e_en_javascript
+
+        this.animationId = this.animationFrameProvider.requestAnimationFrame(() => {
+            this.play();
+        });
         if (this.isRunning()) {
             ++this.frame;
             this.eventListener.fire(MotionEvents.FRAME, this.frame);
         }
-        this.animationId = this.animationFrameProvider.requestAnimationFrame(() => {
-            this.play();
-            //todo https://developer.mozilla.org/fr/docs/Games/Anatomy#construire_une_boucle_principale_encore_plus_optimis%C3%A9e_en_javascript
-        });
     }
 }
